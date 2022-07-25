@@ -1,0 +1,33 @@
+schema: '2.0'
+stages:
+  drop_duplicates:
+    cmd: python src/data/drop_duplicates.py data/raw/train.csv data/interim/train_without_duplicates.csv
+    deps:
+    - path: data/raw/train.csv
+      md5: 9f4dad27af12691c7365164361e54bdf
+      size: 10908376
+    outs:
+    - path: data/interim/train_without_duplicates.csv
+      md5: 8112efc9c886f12c2a31db4d36507ce3
+      size: 11154623
+  add_essay:
+    cmd: python src/data/add_essay.py data/interim/train_without_duplicates.csv data/interim/train_with_essay.csv
+      true
+    deps:
+    - path: data/interim/train_without_duplicates.csv
+      md5: 8112efc9c886f12c2a31db4d36507ce3
+      size: 11154623
+    outs:
+    - path: data/interim/train_with_essay.csv
+      md5: f5d0e62b114795e6818f25993b29ea84
+      size: 107628734
+  normalize:
+    cmd: python src/data/normalize.py data/interim/train_with_essay.csv data/processed/train.csv
+    deps:
+    - path: data/interim/train_with_essay.csv
+      md5: f5d0e62b114795e6818f25993b29ea84
+      size: 107628734
+    outs:
+    - path: data/processed/train.csv
+      md5: ad8cf9537f485fb4fea32328dfd12d79
+      size: 215083280

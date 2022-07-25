@@ -1,0 +1,22 @@
+stages:
+
+  drop_duplicates:
+    cmd: python src/data/drop_duplicates.py data/raw/train.csv data/interim/train_without_duplicates.csv
+    deps:
+      - data/raw/train.csv
+    outs:
+      - data/interim/train_without_duplicates.csv
+
+  add_essay:
+    cmd: python src/data/add_essay.py data/interim/train_without_duplicates.csv data/interim/train_with_essay.csv true
+    deps:
+      - data/interim/train_without_duplicates.csv
+    outs:
+      - data/interim/train_with_essay.csv
+
+  normalize:
+    cmd: python src/data/normalize.py data/interim/train_with_essay.csv data/processed/train.csv
+    deps:
+      - data/interim/train_with_essay.csv
+    outs:
+      - data/processed/train.csv
