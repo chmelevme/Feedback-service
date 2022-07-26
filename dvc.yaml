@@ -15,8 +15,16 @@ stages:
       - data/interim/train_with_essay.csv
 
   normalize:
-    cmd: python src/data/normalize.py data/interim/train_with_essay.csv data/processed/train.csv
+    cmd: python src/data/normalize.py data/interim/train_with_essay.csv data/interim/train_normalize.csv
     deps:
       - data/interim/train_with_essay.csv
     outs:
+      - data/interim/train_normalize.csv
+
+  encode_label:
+    cmd: python src/data/encode_label.py data/interim/train_normalize.csv data/processed/train.csv discourse_effectiveness
+    deps:
+      - data/interim/train_normalize.csv
+    outs:
       - data/processed/train.csv
+      - models/label_encoder.sk

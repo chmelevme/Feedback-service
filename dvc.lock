@@ -22,12 +22,26 @@ stages:
       md5: f5d0e62b114795e6818f25993b29ea84
       size: 107628734
   normalize:
-    cmd: python src/data/normalize.py data/interim/train_with_essay.csv data/processed/train.csv
+    cmd: python src/data/normalize.py data/interim/train_with_essay.csv data/interim/train_normalize.csv
     deps:
     - path: data/interim/train_with_essay.csv
       md5: f5d0e62b114795e6818f25993b29ea84
       size: 107628734
     outs:
-    - path: data/processed/train.csv
+    - path: data/interim/train_normalize.csv
       md5: ad8cf9537f485fb4fea32328dfd12d79
       size: 215083280
+  encode_label:
+    cmd: python src/data/encode_label.py data/interim/train_normalize.csv data/processed/train.csv
+      discourse_effectiveness
+    deps:
+    - path: data/interim/train_normalize.csv
+      md5: ad8cf9537f485fb4fea32328dfd12d79
+      size: 215083280
+    outs:
+    - path: data/processed/train.csv
+      md5: f810d7940fbe67e1dd31b1416b9e7458
+      size: 215006706
+    - path: models/label_encoder.sk
+      md5: 933f52e889eaa1ab34499c6c38bda57b
+      size: 279
