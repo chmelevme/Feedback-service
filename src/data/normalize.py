@@ -11,7 +11,7 @@ def normalize(input_filepath, output_filepath):
     df['discourse_text'] = df['discourse_text'].apply(lambda x: resolve_encodings_and_normalize(x))
     df['essay_text'] = df['essay_text'].apply(lambda x: resolve_encodings_and_normalize(x))
     df['text'] = df['discourse_type'] + ' ' + df['discourse_text'] + '[SEP]' + df['essay_text']
-    df.to_csv(output_filepath)
+    df.to_csv(output_filepath, index=False)
 
 
 if __name__ == '__main__':

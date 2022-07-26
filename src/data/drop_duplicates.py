@@ -8,7 +8,7 @@ import pandas as pd
 def drop_duplicates(input_filepath, output_filepath):
     df = pd.read_csv(input_filepath)
     df.drop_duplicates('discourse_text')
-    df.to_csv(output_filepath)
+    df.to_csv(output_filepath, index=False)
 
 
 if __name__ == '__main__':

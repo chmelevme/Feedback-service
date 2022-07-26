@@ -13,7 +13,7 @@ def encode_label(input_filepath, output_filepath, label):
     le = LabelEncoder()
     le.fit(df[label])
     df[label] = le.transform(df[label])
-    df.to_csv(output_filepath)
+    df.to_csv(output_filepath, index=False)
     with open('models/label_encoder.sk', 'wb') as f:
         pickle.dump(le, f)
 
