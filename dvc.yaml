@@ -28,3 +28,10 @@ stages:
     outs:
       - data/processed/train.csv
       - models/label_encoder.sk
+  train_test_split:
+    cmd: python src/data/split_train_test.py data/processed/train.csv data/processed/train_split.csv data/processed/test_split.csv
+    deps:
+      - data/processed/train.csv
+    outs:
+      - data/processed/train_split.csv
+      - data/processed/test_split.csv
