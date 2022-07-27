@@ -1,0 +1,61 @@
+schema: '2.0'
+stages:
+  drop_duplicates:
+    cmd: python src/data/drop_duplicates.py data/raw/train.csv data/interim/train_without_duplicates.csv
+    deps:
+    - path: data/raw/train.csv
+      md5: 9f4dad27af12691c7365164361e54bdf
+      size: 10908376
+    outs:
+    - path: data/interim/train_without_duplicates.csv
+      md5: 9f4dad27af12691c7365164361e54bdf
+      size: 10945142
+  add_essay:
+    cmd: python src/data/add_essay.py data/interim/train_without_duplicates.csv data/interim/train_with_essay.csv
+      true
+    deps:
+    - path: data/interim/train_without_duplicates.csv
+      md5: 9f4dad27af12691c7365164361e54bdf
+      size: 10908376
+    outs:
+    - path: data/interim/train_with_essay.csv
+      md5: 2e39637d3337c9773863a5c801350db1
+      size: 107209762
+  normalize:
+    cmd: python src/data/normalize.py data/interim/train_with_essay.csv data/interim/train_normalize.csv
+    deps:
+    - path: data/interim/train_with_essay.csv
+      md5: 2e39637d3337c9773863a5c801350db1
+      size: 107209762
+    outs:
+    - path: data/interim/train_normalize.csv
+      md5: 37a15e757613b887ac0e735538ac423f
+      size: 214454815
+  encode_label:
+    cmd: python src/data/encode_label.py data/interim/train_normalize.csv data/processed/train.csv
+      discourse_effectiveness
+    deps:
+    - path: data/interim/train_normalize.csv
+      md5: 37a15e757613b887ac0e735538ac423f
+      size: 214454815
+    outs:
+    - path: data/processed/train.csv
+      md5: 7dc213a52c2a82050e8e8de9696b3c53
+      size: 214168748
+    - path: models/label_encoder.sk
+      md5: 933f52e889eaa1ab34499c6c38bda57b
+      size: 279
+  train_test_split:
+    cmd: python src/data/split_train_test.py data/processed/train.csv data/processed/train_split.csv
+      data/processed/test_split.csv
+    deps:
+    - path: data/processed/train.csv
+      md5: 7dc213a52c2a82050e8e8de9696b3c53
+      size: 214168748
+    outs:
+    - path: data/processed/test_split.csv
+      md5: df00419c4b7d2cc7f8aea030084faabb
+      size: 41306202
+    - path: data/processed/train_split.csv
+      md5: 8cfa7353912f5b8cad5f835bd5abb98c
+      size: 172862639

@@ -1,0 +1,37 @@
+stages:
+
+  drop_duplicates:
+    cmd: python src/data/drop_duplicates.py data/raw/train.csv data/interim/train_without_duplicates.csv
+    deps:
+      - data/raw/train.csv
+    outs:
+      - data/interim/train_without_duplicates.csv
+
+  add_essay:
+    cmd: python src/data/add_essay.py data/interim/train_without_duplicates.csv data/interim/train_with_essay.csv true
+    deps:
+      - data/interim/train_without_duplicates.csv
+    outs:
+      - data/interim/train_with_essay.csv
+
+  normalize:
+    cmd: python src/data/normalize.py data/interim/train_with_essay.csv data/interim/train_normalize.csv
+    deps:
+      - data/interim/train_with_essay.csv
+    outs:
+      - data/interim/train_normalize.csv
+
+  encode_label:
+    cmd: python src/data/encode_label.py data/interim/train_normalize.csv data/processed/train.csv discourse_effectiveness
+    deps:
+      - data/interim/train_normalize.csv
+    outs:
+      - data/processed/train.csv
+      - models/label_encoder.sk
+  train_test_split:
+    cmd: python src/data/split_train_test.py data/processed/train.csv data/processed/train_split.csv data/processed/test_split.csv
+    deps:
+      - data/processed/train.csv
+    outs:
+      - data/processed/train_split.csv
+      - data/processed/test_split.csv
