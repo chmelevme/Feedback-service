@@ -28,6 +28,7 @@ stages:
     outs:
       - data/processed/train.csv
       - models/label_encoder.sk
+
   train_test_split:
     cmd: python src/data/split_train_test.py data/processed/train.csv data/processed/train_split.csv data/processed/test_split.csv
     deps:
@@ -35,3 +36,11 @@ stages:
     outs:
       - data/processed/train_split.csv
       - data/processed/test_split.csv
+
+  make_toy_data:
+    cmd: python src/data/make_toy_data.py data/processed/train.csv data/processed/toy_train_split.csv data/processed/toy_test_split.csv
+    deps:
+      - data/processed/train.csv
+    outs:
+      - data/processed/toy_train_split.csv
+      - data/processed/toy_test_split.csv
