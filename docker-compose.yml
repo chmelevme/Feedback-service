@@ -57,7 +57,7 @@ services:
     networks:
       - s3
       - database
-    command: mlflow server --backend-store-uri postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres/${POSTGRES_DB_NAME} --artifacts-destination s3://${BUCKET_NAME}/mlartifacts --serve-artifacts --host 0.0.0.0
+    command: mlflow server --backend-store-uri postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres/${POSTGRES_DB_NAME} --default-artifact-root S3://${BUCKET_NAME} --host 0.0.0.0
 
 
 networks:
