@@ -59,3 +59,17 @@ stages:
     - path: data/processed/train_split.csv
       md5: 8cfa7353912f5b8cad5f835bd5abb98c
       size: 172862639
+  make_toy_data:
+    cmd: python src/data/make_toy_data.py data/processed/train.csv data/processed/toy_train_split.csv
+      data/processed/toy_test_split.csv
+    deps:
+    - path: data/processed/train.csv
+      md5: 7dc213a52c2a82050e8e8de9696b3c53
+      size: 214168748
+    outs:
+    - path: data/processed/toy_test_split.csv
+      md5: 2a030b62b72ddc7817620abb53825000
+      size: 163385
+    - path: data/processed/toy_train_split.csv
+      md5: 572bd88f0ac5297fd2e09ae43af897e4
+      size: 138542
