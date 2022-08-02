@@ -1,4 +1,4 @@
-Feedback model - Predicting Effective Arguments
+Feedback model
 ==============================
 Установка необходимых зависимостей и активация среды:
 
