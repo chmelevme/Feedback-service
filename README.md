@@ -1,13 +1,45 @@
-Feedback Prize - Predicting Effective Arguments
+Feedback model - Predicting Effective Arguments
 ==============================
+Установка необходимых зависимостей и активация среды:
 
-kaggle contest
+```commandline
+conda create --name <env> --file requirements.txt
+conda activate <env>
+```
+
+Подготовка данных:
+В папке `data/raw` должны находится необходимые сырые данные
+
+```dvc repro```
+
+Создание необходимых docker images:
+
+```commandline
+docker build -f Docker/app_image/Dockerfile -t model_app .
+docker build -f Docker/mlflow_image/Dockerfile -t mlflow_server .
+```
+
+docker compose
+
+```commandline
+docker compose up -d
+```
+
+Обучение модели классификатора:
+```commandline
+python src/mpdels/train_model.py data/processed/train_split.csv data/processed/test_split.csv
+```
+Во время обучения создаются чекпоинты в папке `models/`. Обученные модели логируются на `MLflow` сервер.
+После обучения, при необходимости, переведите получившуюся модель в стадию Production в `Mlflow UI`
+
+Загрузка модели в сервис проводится автоматически, при необходимости перезагрузите контейнер `app`
+
+Сервис готов к использованию, документация располагается по адресу `http:<your-ip>/docs`
 
 Project Organization
 ------------
 
     ├── LICENSE
-    ├── Makefile           <- Makefile with commands like `make data` or `make train`
     ├── README.md          <- The top-level README for developers using this project.
     ├── data
     │   ├── external       <- Data from third party sources.
@@ -15,31 +47,23 @@ Project Organization
     │   ├── processed      <- The final, canonical data sets for modeling.
     │   └── raw            <- The original, immutable data dump.
     │
-    ├── docs               <- A default Sphinx project; see sphinx-doc.org for details
     │
     ├── models             <- Trained and serialized models, model predictions, or model summaries
     │
-    ├── notebooks          <- Jupyter notebooks. Naming convention is a number (for ordering),
-    │                         the creator's initials, and a short `-` delimited description, e.g.
-    │                         `1.0-jqp-initial-data-exploration`.
-    │
-    ├── references         <- Data dictionaries, manuals, and all other explanatory materials.
+    ├── notebooks          <- Jupyter notebooks
     │
     ├── reports            <- Generated analysis as HTML, PDF, LaTeX, etc.
     │   └── figures        <- Generated graphics and figures to be used in reporting
     │
     ├── requirements.txt   <- The requirements file for reproducing the analysis environment, e.g.
-    │                         generated with `pip freeze > requirements.txt`
+    │                         generated with `conda list --export > requirements.txt`
     │
-    ├── setup.py           <- makes project pip installable (pip install -e .) so src can be imported
     ├── src                <- Source code for use in this project.
     │   ├── __init__.py    <- Makes src a Python module
     │   │
-    │   ├── data           <- Scripts to download or generate data
-    │   │   └── make_dataset.py
+    │   ├── data           <- Scripts to preprocess data
     │   │
     │   ├── features       <- Scripts to turn raw data into features for modeling
-    │   │   └── build_features.py
     │   │
     │   ├── models         <- Scripts to train models and then use trained models to make
     │   │   │                 predictions
@@ -54,4 +78,3 @@ Project Organization
 
 --------
 
-<p><small>Project based on the <a target="_blank" href="https://drivendata.github.io/cookiecutter-data-science/">cookiecutter data science project template</a>. #cookiecutterdatascience</small></p>

@@ -72,7 +72,7 @@ services:
     networks:
       - s3
       - database
-    command: uvicorn src.app.main:app --host 0.0.0.0 --port 80
+    command: uvicorn src.app.main:app --host 0.0.0.0 --port 80 --reload
 
 
 
