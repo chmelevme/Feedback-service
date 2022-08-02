@@ -19,4 +19,4 @@ class CheckpointToMlflow(ModelCheckpoint):
         os.environ['MLFLOW_RUN_ID'] = trainer.logger.run_id  # Hack to force MLFlow to 'know' about this run
         model_to_save = FeedbackModel.load_from_checkpoint(self.best_model_path, cfg=CFG)
         mlflow.pytorch.log_model(model_to_save.base_model, 'feedback_model',
-                                 registered_model_name="Feedback_model")
+                                 registered_model_name="feedback")

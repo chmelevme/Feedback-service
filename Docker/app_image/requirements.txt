@@ -1,0 +1,11 @@
+mlflow
+psycopg2
+boto3
+fastapi
+uvicorn
+torch
+transformers
+text_unidecode
+pytorch_lightning
+sklearn
+python-multipart
