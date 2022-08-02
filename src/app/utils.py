@@ -13,7 +13,7 @@ mlflow.set_tracking_uri(os.environ.get('MLFLOW_TRACKING_URI'))
 mlflow.set_registry_uri(os.environ.get('MLFLOW_TRACKING_URI'))
 
 
-def get_model(model_name, model_version):
+def get_model(model_name):
     print('loading_model')
     model = mlflow.pytorch.load_model(model_uri=f'models:/{model_name}/Production')  # Uri через models:/работает не всегда
     print('loading done')
